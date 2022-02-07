@@ -1,0 +1,278 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+  public class Employee
+  {
+
+        //Declared Variables
+        private string name;
+        private int EmployeeID;
+        private static int numberOfEmployees = 0;
+
+        //EmployeeID = int.Parse(Console.ReadLine());
+
+        //Constructor
+        public Employee() {
+
+            name = "new employee";
+
+            ++numberOfEmployees;
+            EmployeeID = numberOfEmployees;
+
+        }
+
+        //OverloadedCon
+        public Employee(String newName)
+        {
+
+            name = newName;
+
+            EmployeeID = ++numberOfEmployees;
+            //EmployeeID = newEmployeeID;
+
+
+        }
+
+        //setterName
+        public void SetName(string newName)
+        {
+            name = newName;
+        }
+
+        //setterID
+        public void SetID(int newEmployeeID)
+        {
+            EmployeeID = newEmployeeID;
+        }
+
+        //getterName
+        public string GetName()
+        {
+            return name;
+        }
+
+        //getterID
+        public int GetID()
+        {
+            return EmployeeID;
+        }
+
+
+        //gets number of employees currently
+        public static int getNumberOfEmployees()
+        {
+            return numberOfEmployees;
+        }
+
+        //decreases number of employees by 1
+        public static void decreaseNumberOfEmployees()
+        {
+            numberOfEmployees--;
+        }
+
+
+
+
+
+
+
+
+
+    }
+
+    public class Faculty : Employee
+    {
+
+        //declared variables for Faculty
+        private double weeklySalary;
+        private double weeklyStipend;
+        private double weeklyPay;
+
+        //overloaded constructor
+       
+        public Faculty(string newname, double newSalary, double newStipend): base(newname)
+        {
+            weeklySalary = newSalary;
+            weeklyStipend = newStipend;
+           
+        }
+
+        /*public Faculty(string newname, int newEmployeeID, double newSalary, double newStipend):base(newname,newEmployeeID)
+        {
+
+            weeklySalary = newSalary;
+
+            weeklyStipend = newStipend;
+
+        }*/
+
+        //setter Salary
+        public void setSalary(double newSalary)
+        {
+            weeklySalary = newSalary;
+        }
+
+        //setter Stipend
+        public void setStipend(double newStipend)
+        {
+            weeklyStipend = newStipend;
+        }
+
+        //setter Pay
+        public void setPay(double newPay)
+        {
+            weeklyPay = newPay;
+        }
+
+
+        //getter salary
+        public double getSalary()
+        {
+            return weeklySalary;
+        }
+
+        //getter Stipend
+        public double getStipend()
+        {
+            return weeklyStipend;
+        }
+
+        //getter pay
+        public double getPay()
+        {
+            return weeklyPay;
+        }
+
+        //Figures out weekly pay
+        public void calculateWeeklyPay()
+        {
+            weeklyPay = weeklySalary + weeklyStipend;
+        }
+
+
+        //tostring override method
+
+        public override string ToString()
+        {
+            return "Name: " + GetName() + ", Salary: " + getSalary() + ", Stipend: " + getStipend() + ", Weekly Pay: " + getPay();
+        }
+
+
+
+    }
+
+
+
+    class Program
+    {
+
+
+        public static void addFaculty(List<Faculty> fList)
+        {
+
+            Console.WriteLine("Enter Employee Name: ");
+            String name = Console.ReadLine();
+
+            Console.WriteLine("Enter a weekly salary: ");
+            double weeklySalary = double.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter a weekly stipend: ");
+            double weeklyStipend = double.Parse(Console.ReadLine());
+
+            Faculty faculty1 = new Faculty(name, weeklySalary, weeklyStipend);
+
+            fList.Add(faculty1);
+
+        }
+
+
+
+        public static void removeFaculty(List<Faculty> fList)
+        {
+
+            Console.WriteLine("Enter a name to delete: ");
+            String name = Console.ReadLine();
+
+
+            for (int i = 0; i < fList.Count; i++)
+            {
+                if (fList[i].GetName() == name)
+                {
+                    fList.RemoveAt(i);
+                    break;
+                    //fList.Remove(fList[i));
+                }
+            }
+
+        }
+
+
+
+        public static void calculateFacultyPay(List<Faculty> fList)
+        {
+
+            for (int i = 0; i < fList.Count; i++)
+            {
+                fList[i].calculateWeeklyPay();
+
+            }
+
+        }
+
+        public static void printFaculty(List<Faculty> fList)
+        {
+
+            for (int i=0; i<fList.Count; i++)
+            {
+               Console.WriteLine(fList.ElementAt(i)+"\n");
+            }
+
+
+        }
+       
+
+        public static void Main(string[] args)
+        {
+
+            List<Faculty> fList = new List<Faculty>();
+            int menu = 0;
+
+            do
+            {
+                Console.WriteLine("1 - Add Faculty");
+                Console.WriteLine("2 - Delete Faculty");
+                Console.WriteLine("3 - Calculate Faculty Pay");
+                Console.WriteLine("4 - Print Faculty");
+                Console.WriteLine("5 - Exit");
+                Console.WriteLine("Enter Choice: ");
+
+                menu = int.Parse(Console.ReadLine());
+
+                switch (menu)
+                {
+
+                    case 1:
+                        addFaculty(fList);
+                        break;
+                    case 2:
+                        removeFaculty(fList);
+                        break;
+                    case 3:
+                        calculateFacultyPay(fList);
+                        break;
+                    case 4:
+                        printFaculty(fList);
+                        break;
+                    case 5:
+                        Console.WriteLine("End");
+                        break;
+                    default:
+                        Console.WriteLine("Error: Please enter valid input.");
+                        break;
+                }
+            } while (menu!=5);
+        
+        }
+
+    }
